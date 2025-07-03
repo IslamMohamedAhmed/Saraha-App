@@ -2,21 +2,24 @@ import { userModel } from "../../../Database/Models/userModel.js";
 import { sendEmail } from "../../Email/sendEmail.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-const signup = async (req, res) => {
+import { catchError } from "../../middlewares/catchError.js";
+import { appError } from "../../utils/appError.js";
+
+const signup = catchError(async (req, res) => {
     await userModel.create(req.body);
     sendEmail(req.body.email);
     res.json({ message: 'success' });
-};
+});
 
-const verify = async (req, res) => {
-    await jwt.verify(req.params.token, "IssoQodearaFullStack", async (err, decoded) => {
-        if (err) return res.json(err);
+const verify = catchError(async (req, res, next) => {
+    jwt.verify(req.params.token, process.env.JWT_KEY_SIGNUP, async (err, decoded) => {
+        if (err) return next(new appError(err, 401));
         await userModel.findOneAndUpdate({ email: decoded.email }, { verifyEmail: true });
-        res.json({ message: "verfication Succeeded" });
+        res.json({ message: "verification Succeeded" });
     });
-};
+});
 
-const signin = async (req, res) => {
+const signin = catchError(async (req, res, next) => {
     const user = await userModel.findOne({ email: req.body.email });
     if (user) {
         const match = bcrypt.compareSync(req.body.password, user.password);
@@ -25,8 +28,8 @@ const signin = async (req, res) => {
             return res.json({ message: "Sign in Succeeded!!", token });
         }
     }
-    return res.json({ message: "Email or password are incorrect!!" });
-};
+    return next(new appError("Email or password are incorrect!!", 401));
+});
 
 
 export {

@@ -6,16 +6,16 @@ export const sendEmail = async (email) => {
     const transporter = createTransport({
         service: "gmail",
         auth: {
-            user: "islamqodeara21@gmail.com",
-            pass: "ffvuilhbajqnmjli",
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
         },
     });
 
-    let token = jwt.sign({ email }, "IssoQodearaFullStack");
+    let token = jwt.sign({ email }, process.env.JWT_KEY_SIGNUP);
 
     (async () => {
         const info = await transporter.sendMail({
-            from: '"Saraha App Verification" <islamqodeara21@gmail.com>',
+            from: `"Saraha App Verification" <${process.env.EMAIL}>`,
             to: email,
             subject: "Hello ✔",
             html: createTemplate(token), // plain‑text body
