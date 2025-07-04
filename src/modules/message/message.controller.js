@@ -5,8 +5,9 @@ import { catchError } from "../../middlewares/catchError.js";
 import { appError } from "../../utils/appError.js";
 import qrCode from 'qrcode';
 const addMessage = catchError(async (req, res, next) => {
-    const user = await userModel.findOne({ _id: req.body.receiverId });
+    const user = await userModel.findOne({ _id: req.params.id });
     if (user) {
+        req.body.receiverId = req.params.id;
         await messageModel.insertMany(req.body);
         return res.json({ message: "message was sent successfully" });
     }
