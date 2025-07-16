@@ -13,9 +13,20 @@ const validateSignin = joi.object({
     password: joi.string().pattern(/^[A-Z][a-z0-9]{8,40}$/).required(),
 });
 
+const validateRequestResetPassword = joi.object({
+    id: joi.string().hex().length(24)
+});
+
+const validateResetPassword = joi.object({
+    token: joi.string(),
+    password: joi.string().pattern(/^[A-Z][a-z0-9]{8,40}$/).required(),
+});
+
 
 
 export {
     validateSignup,
-    validateSignin
+    validateSignin,
+    validateRequestResetPassword,
+    validateResetPassword
 }
