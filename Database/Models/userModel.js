@@ -26,8 +26,17 @@ const table = mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
+    },
+    profilePictureName: {
+        type: String,
+        default: ""
     }
 }, { timestamps: true });
 
+table.post('init',(doc)=>{
+if(doc.profilePictureName){
+    doc.profilePictureName = process.env.BASE_URL + doc.profilePictureName;
+}
+});
 
 export const userModel = mongoose.model('users', table);

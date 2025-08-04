@@ -11,11 +11,13 @@ import { appError } from './src/utils/appError.js';
 import { invalidPathHandler } from './src/middlewares/invalidPathHandler.js';
 import { globalErrorHandler } from './src/middlewares/globalErrorHandler.js';
 import dotenv from "dotenv";
+import mongoose from 'mongoose';
 const app = express();
 dotenv.config();
 const port = 3000;
 app.use(json());
 app.use(cors());
+app.use("/images",express.static("Uploads/images"))
 app.use(userRouter);
 app.use(messageRouter);
 await connectDb();

@@ -7,6 +7,7 @@ import { appError } from "../../utils/appError.js";
 import { Model } from "mongoose";
 
 const signup = catchError(async (req, res) => {
+    req.body.profilePictureName = req.file.filename;
     await userModel.create(req.body);
     sendEmail(req.body.email);
     res.json({ message: 'success' });
