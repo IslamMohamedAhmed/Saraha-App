@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { catchError } from "../../middlewares/catchError.js";
 import { appError } from "../../utils/appError.js";
-import { Model } from "mongoose";
 
 const signup = catchError(async (req, res) => {
     req.body.profilePictureName = req.file.filename;
