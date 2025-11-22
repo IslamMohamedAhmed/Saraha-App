@@ -36,7 +36,7 @@ export function createTemplate(token) {
           </tr>
           <tr>
             <td>
-              <a href="http://localhost:3000/verify/${token}" type="button" style="background-color:#36b445; color:white; padding:15px 97px; outline: none; display: block; margin: auto; border-radius: 31px;
+              <a href="${process.env.BASE_URL}/verify/${token}" type="button" style="background-color:#36b445; color:white; padding:15px 97px; outline: none; display: block; margin: auto; border-radius: 31px;
                                 font-weight: bold; margin-top: 25px; margin-bottom: 25px; border: none; text-transform:uppercase; ">Verify email</a>
             </td>
           </tr>
