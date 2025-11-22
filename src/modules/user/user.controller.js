@@ -1,9 +1,9 @@
 import { userModel } from "../../../Database/Models/userModel.js";
-import { sendEmail } from "../../Email/sendEmail.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { catchError } from "../../middlewares/catchError.js";
 import { appError } from "../../utils/appError.js";
+import sendEmail from "../../Email/sendGrid.js";
 
 const signup = catchError(async (req, res) => {
     req.body.profilePictureName = req.file.filename;
